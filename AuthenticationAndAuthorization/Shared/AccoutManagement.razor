@@ -1,0 +1,43 @@
+﻿@using AuthenticationAndAuthorization.Data
+@inject WebsiteAuthenticator WebsiteAuthenticator
+@page "/account-management"
+
+<AuthorizeView Context="Account">
+    <NotAuthorized>
+        <EditForm Model="LoginFormModel" Context="Login">
+            <div>
+                <label> Username: 
+                    <InputText @bind-Value="LoginFormModel.Username"></InputText>
+                </label>
+            </div>
+            <div>
+                <label> Password:
+                    <InputText type="password" @bind-Value="LoginFormModel.Password"></InputText>
+                </label>
+            </div>
+            <div>
+                <button @onclick="TryLogin">Submit</button>
+            </div>
+        </EditForm>
+    </NotAuthorized>
+    <Authorized>
+        <button type="button" class="btn btn-primary" @onclick="TryLogout">Logout</button>
+    </Authorized>
+    <Authorizing>
+        Authorizing in process...
+    </Authorizing>
+</AuthorizeView>
+
+@code {
+    private LoginFormModel LoginFormModel { get; set; } = new();
+
+    private async Task TryLogin()
+    {
+        await WebsiteAuthenticator.LoginAsync(LoginFormModel);
+    }
+
+    private async Task TryLogout()
+    {
+        await WebsiteAuthenticator.LogoutAsync();
+    }
+}
