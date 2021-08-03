@@ -26,6 +26,13 @@ namespace AuthenticationAndAuthorization
             services.AddSingleton<SimulatedDataProviderService>();
             services.AddScoped<WebsiteAuthenticator>();
             services.AddScoped<AuthenticationStateProvider>(sp => sp.GetRequiredService<WebsiteAuthenticator>());
+            //services.AddAuthorization(config =>
+            //{
+            //    config.AddPolicy("AdminOrHigher", policy =>
+            //    {
+            //        policy.RequireRole(new string[] { "Admin", "SuperAdmin" });
+            //    });
+            //});
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

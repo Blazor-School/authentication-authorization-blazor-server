@@ -1,0 +1,10 @@
+﻿@page "/admin-panel"
+
+<AuthorizeView Roles="Admin,SuperAdmin">
+    <NotAuthorized>
+        You must be Admin or Super Admin to access this page.
+    </NotAuthorized>
+    <Authorized>
+        <h1>Admin panel</h1>
+    </Authorized>
+</AuthorizeView>

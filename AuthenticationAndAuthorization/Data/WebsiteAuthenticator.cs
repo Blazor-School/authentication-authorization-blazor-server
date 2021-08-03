@@ -68,14 +68,23 @@ namespace AuthenticationAndAuthorization.Data
             NotifyAuthenticationStateChanged(Task.FromResult(new AuthenticationState(principal)));
         }
 
-        private static ClaimsIdentity CreateIdentityFromUser(User user)
+        private ClaimsIdentity CreateIdentityFromUser(User user)
         {
-            return new ClaimsIdentity(new Claim[]
+            var result = new ClaimsIdentity(new Claim[]
             {
                 new (ClaimTypes.Name, user.Username),
                 new (ClaimTypes.Hash, user.Password),
-                new("age", user.Age.ToString())
+                new ("age", user.Age.ToString()),
             }, "BlazorSchool");
+
+            var roles = _dataProviderService.GetUserRoles(user);
+
+            foreach (string role in roles)
+            {
+                result.AddClaim(new(ClaimTypes.Role, role));
+            }
+
+            return result;
         }
 
         private (User, bool) LookUpUser(string username, string password)
