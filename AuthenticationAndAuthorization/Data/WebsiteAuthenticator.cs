@@ -74,7 +74,8 @@ namespace AuthenticationAndAuthorization.Data
             {
                 new (ClaimTypes.Name, user.Username),
                 new (ClaimTypes.Hash, user.Password),
-                new ("age", user.Age.ToString()),
+                new (AdultRequirement.ClaimName, user.Age.ToString()),
+                new ("IsPremiumMember", user.IsPremiumMember.ToString())
             }, "BlazorSchool");
 
             var roles = _dataProviderService.GetUserRoles(user);

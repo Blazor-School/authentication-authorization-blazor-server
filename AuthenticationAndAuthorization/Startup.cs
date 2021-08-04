@@ -1,4 +1,6 @@
 using AuthenticationAndAuthorization.Data;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Hosting;
@@ -26,13 +28,15 @@ namespace AuthenticationAndAuthorization
             services.AddSingleton<SimulatedDataProviderService>();
             services.AddScoped<WebsiteAuthenticator>();
             services.AddScoped<AuthenticationStateProvider>(sp => sp.GetRequiredService<WebsiteAuthenticator>());
-            //services.AddAuthorization(config =>
-            //{
-            //    config.AddPolicy("AdminOrHigher", policy =>
-            //    {
-            //        policy.RequireRole(new string[] { "Admin", "SuperAdmin" });
-            //    });
-            //});
+            services.AddAuthorization(config =>
+            {
+                config.AddPolicy("CanBuyAlcohol", policy =>
+                {
+                    policy.AddRequirements(new AdultRequirement());
+                    policy.RequireClaim("IsPremiumMember", true.ToString());
+                });
+            });
+            services.AddSingleton<IAuthorizationHandler, AdultRequirementHandler>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

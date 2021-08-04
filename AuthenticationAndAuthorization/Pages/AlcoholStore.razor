@@ -1,0 +1,10 @@
+﻿@page "/alcohol-store"
+
+<AuthorizeView Policy="CanBuyAlcohol">
+    <Authorized>
+        <h3>Welcome to the Alcohol Store</h3>
+    </Authorized>
+    <NotAuthorized>
+        You don't have permission to see this.
+    </NotAuthorized>
+</AuthorizeView>

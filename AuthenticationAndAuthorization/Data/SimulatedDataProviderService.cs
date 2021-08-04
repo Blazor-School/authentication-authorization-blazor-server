@@ -10,13 +10,22 @@ namespace AuthenticationAndAuthorization.Data
             {
                 Username = "User1",
                 Password = "User1",
-                Age = 19
+                Age = 19,
+                IsPremiumMember = false
             },
             new()
             {
                 Username = "User2",
                 Password = "User2",
-                Age = 10
+                Age = 10,
+                IsPremiumMember = true
+            },
+            new()
+            {
+                Username = "User3",
+                Password = "User3",
+                Age = 20,
+                IsPremiumMember = true
             }
         };
 
