@@ -34,8 +34,11 @@ namespace AuthenticationAndAuthorization
                     policy.AddRequirements(new AdultRequirement());
                     policy.RequireClaim("IsPremiumMember", true.ToString());
                 });
+
+                config.AddPolicy("OverAge", policy => policy.AddRequirements(new OverAgeRequirement()));
             });
             services.AddSingleton<IAuthorizationHandler, AdultRequirementHandler>();
+            services.AddSingleton<IAuthorizationHandler, OverAgeRequirementHandler>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

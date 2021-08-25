@@ -29,6 +29,20 @@ namespace AuthenticationAndAuthorization.Data
             }
         };
 
+        public List<Toy> Toys { get; set; } = new()
+        {
+            new()
+            {
+                Name = "Car",
+                AgeRequired = 0
+            },
+            new()
+            {
+                Name = "Plastic knife",
+                AgeRequired = 15
+            }
+        };
+
         public IEnumerable<string> GetUserRoles(User user)
         {
             var result = user.Username switch
