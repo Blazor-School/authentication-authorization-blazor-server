@@ -6,6 +6,9 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Persistence.Context;
+using Npgsql.EntityFrameworkCore.PostgreSQL;
+using Microsoft.EntityFrameworkCore;
 
 namespace AuthenticationAndAuthorization
 {
@@ -22,6 +25,15 @@ namespace AuthenticationAndAuthorization
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            var connectionString = Configuration["ConnectionStrings:DbConnection"];
+
+            services.AddDbContext<AuthenticationAndAuthorizationContext>(options =>
+            {
+                options.UseNpgsql(connectionString);
+            });
+
+            services.AddScoped<IAuthenticationAndAuthorizationContext>(provider => provider.GetService<AuthenticationAndAuthorizationContext>()!);
+
             services.AddRazorPages();
             services.AddServerSideBlazor();
             services.AddSingleton<SimulatedDataProviderService>();

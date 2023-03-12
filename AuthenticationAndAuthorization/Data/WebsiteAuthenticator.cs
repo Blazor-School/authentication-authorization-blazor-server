@@ -4,6 +4,8 @@ using Newtonsoft.Json;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Persistence.Entities;
+using Persistence.Context;
 
 namespace AuthenticationAndAuthorization.Data
 {
@@ -11,11 +13,13 @@ namespace AuthenticationAndAuthorization.Data
     {
         private readonly ProtectedLocalStorage _protectedLocalStorage;
         private readonly SimulatedDataProviderService _dataProviderService;
+        private readonly IAuthenticationAndAuthorizationContext _context;
 
-        public WebsiteAuthenticator(ProtectedLocalStorage protectedLocalStorage, SimulatedDataProviderService dataProviderService)
+        public WebsiteAuthenticator(ProtectedLocalStorage protectedLocalStorage, SimulatedDataProviderService dataProviderService, IAuthenticationAndAuthorizationContext context)
         {
             _protectedLocalStorage = protectedLocalStorage;
             _dataProviderService = dataProviderService;
+            _context = context;
         }
 
         public override async Task<AuthenticationState> GetAuthenticationStateAsync()
@@ -90,7 +94,7 @@ namespace AuthenticationAndAuthorization.Data
 
         private (User, bool) LookUpUser(string username, string password)
         {
-            var result = _dataProviderService.Users.FirstOrDefault(u => username == u.Username && password == u.Password);
+            var result = _context.Users.FirstOrDefault(u => username == u.Username && password == u.Password);
 
             return (result, result is not null);
         }

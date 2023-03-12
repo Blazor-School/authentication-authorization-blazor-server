@@ -1,8 +1,7 @@
 ﻿@page "/toy-store"
 @using AuthenticationAndAuthorization.Data
-@inject SimulatedDataProviderService SimulatedDataProviderService
 
-@foreach (Toy toy in SimulatedDataProviderService.Toys)
+@foreach (var toy in Context.Toys)
 {
     <h1>@toy.Name</h1>
     <AuthorizeView Policy="OverAge" Resource="toy.AgeRequired">
@@ -13,4 +12,13 @@
             Restricted
         </NotAuthorized>
     </AuthorizeView>
+}
+
+@code
+{
+    [Inject]
+    private SimulatedDataProviderService SimulatedDataProviderService { get; set; }
+
+    [Inject]
+    private AuthenticationAndAuthorizationContext Context { get; set; }
 }
